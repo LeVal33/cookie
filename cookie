@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker Simplifié</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #12adb8;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            background-color: #0a8995;
+            padding: 20px;
+        }
+        .nav button {
+            background-color: #0a8995;
+            border: none;
+            color: white;
+            font-size: 18px;
+            margin: 0 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .nav button:hover {
+            background-color: #098081;
+        }
+        .content {
+            display: none;
+            padding: 20px;
+        }
+        .active {
+            display: block;
+        }
+        .shop-item {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .shop-item button {
+            background-color: #0a8995;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        .shop-item button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button onclick="showTab('game')">Jeu</button>
+        <button onclick="showTab('shop')">Boutique</button>
+    </div>
+
+    <!-- Onglet Jeu -->
+    <div id="game" class="content active">
+        <h1>Cliquer pour gagner des cookies !</h1>
+        <!-- Bouton simple pour cliquer -->
+        <button onclick="clickCookie()" style="font-size: 24px; padding: 20px;">Cliquez ici</button>
+        <h2>Cookies : <span id="counter">0</span></h2>
+    </div>
+
+    <!-- Onglet Boutique -->
+    <div id="shop" class="content">
+        <h1>Boutique</h1>
+        <div class="shop-item">
+            <p>Double Cookies ! (Coût : 10 cookies)</p>
+            <button id="buyItem" onclick="buyMultiplier()" disabled>Acheter</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let clicks = 0;
+        let multiplier = 1;
+
+        // Fonction pour afficher un onglet
+        function showTab(tab) {
+            document.querySelectorAll('.content').forEach(function(element) {
+                element.classList.remove('active');
+            });
+            document.getElementById(tab).classList.add('active');
+        }
+
+        // Fonction pour gérer les clics sur le bouton
+        function clickCookie() {
+            clicks += multiplier;
+            document.getElementById('counter').textContent = clicks;
+            checkShopItems();
+        }
+
+        // Fonction pour vérifier si un article peut être acheté
+        function checkShopItems() {
+            if (clicks >= 10) {
+                document.getElementById('buyItem').disabled = false;
+            } else {
+                document.getElementById('buyItem').disabled = true;
+            }
+        }
+
+        // Fonction pour acheter le multiplicateur
+        function buyMultiplier() {
+            if (clicks >= 10) {
+                clicks -= 10;
+                multiplier *= 2;
+                document.getElementById('counter').textContent = clicks;
+                document.getElementById('buyItem').disabled = true;
+            }
+        }
+    </script>
+
+</body>
+</html>
